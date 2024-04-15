@@ -12,26 +12,24 @@ function TicTacToe() {
   }, [board]);
 
   const handleClick = (i) => {
-    console.log("old board: ", board);
     const newBoard = [...board];
     if (calculateWinner(newBoard) || newBoard[i]) {
       return;
     }
     newBoard[i] = xIsNext ? "X" : "O";
     setBoard(newBoard);
-    console.log("new board: ", newBoard);
     if (xIsNext) {
       setListX([...listX, i]);
-      handleListItems([...listX, i], "X");
+      handleListItems([...listX, i], "X", newBoard);
     } else {
       setListO([...listO, i]);
-      handleListItems([...listO, i], "O");
+      handleListItems([...listO, i], "O", newBoard);
     }
 
     setXIsNext(!xIsNext);
   };
 
-  function handleListItems(list, listType) {
+  function handleListItems(list, listType, boardModified) {
     if (list.length > 3) {
       const i = list[0];
       list.shift();
@@ -40,10 +38,8 @@ function TicTacToe() {
       } else {
         setListO([...list]);
       }
-      const newBoard = [...board];
-      //console.log("new board: ", newBoard);
-      newBoard[i] = null;
-      setBoard(newBoard);
+      boardModified[i] = null;
+      setBoard(boardModified);
     }
   }
 
